@@ -1,14 +1,21 @@
 //import react from 'react'
-import LandingPage from './components/LandingPage'
-import './App.css'
+import LandingPage from './components/LandingPage';
+import Signup from './components/Signup';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
 
 function App() {
-  
   return (
     <>
-      <LandingPage/>
+      <Router>
+        <Routes>
+          <Route path="/" Component={LandingPage} />
+          <Route path="/Signup" Component={Signup} />
+          {/* Other routes */}
+        </Routes>
+      </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

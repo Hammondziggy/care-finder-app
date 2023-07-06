@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+/*  html,
+  body,
+  #root {
+    height: 100%;
+    overflow-x: hidden;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    /*background-color: #fff;
+  } */
+  
+  .LandingPage {
+    height: 100vh;
+  } 
