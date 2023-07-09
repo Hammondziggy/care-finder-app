@@ -37,7 +37,6 @@ const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 const twitterProvider = new TwitterAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
-//getAuth(app);
 
 const signInWithGoogle = async () => {
     try {
@@ -58,6 +57,7 @@ const signInWithGoogle = async () => {
         alert((err as Error).message);
     }
 };
+
 
 const signInWithTwitter = async () => {
     try {
@@ -176,6 +176,9 @@ const logout = () => {
 export {
   auth,
   db,
+  googleProvider, 
+  twitterProvider, 
+  facebookProvider,
   signInWithGoogle,
   signInWithTwitter,
   signInWithFacebook,

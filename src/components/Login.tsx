@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import firebase from 'firebase/app';
-import { auth } from '../Firebase';
-
 import 'firebase/auth';
+import { logInWithEmailAndPassword } from '../Firebase';
+
 function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -21,7 +20,7 @@ function Login() {
       const password = form.pwd.value;
 
       // Perform the login using Firebase Authentication
-      await firebase.auth().signInWithEmailAndPassword(email, password);
+      await logInWithEmailAndPassword(email, password);
 
       // Redirect the user to the home page after successful login
       history('/');

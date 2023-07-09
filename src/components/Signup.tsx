@@ -1,14 +1,12 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SocialMediaAuth from './socialMediaAuth';
+import SocialMediaAuth, { SocialMediaProvider } from './socialMediaAuth';
 import {
   signInWithGoogle,
   signInWithTwitter,
   signInWithFacebook,
   registerWithEmailAndPassword,
 } from '../Firebase';
-
-type SocialMediaProvider = 'google' | 'twitter' | 'facebook';
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,21 +19,27 @@ const Signup = () => {
   const handleSocialMediaAuth = async (provider: SocialMediaProvider) => {
     try {
       setIsLoading(true);
+      let authProvider = null;
+
       switch (provider) {
         case 'google':
-          await signInWithGoogle();
+          authProvider = signInWithGoogle();
           break;
         case 'twitter':
-          await signInWithTwitter();
+          authProvider = signInWithTwitter();
           break;
         case 'facebook':
-          await signInWithFacebook();
+          authProvider = signInWithFacebook();
           break;
         default:
           throw new Error('Unsupported social media provider');
       }
-      // Redirect the user to the login page after successful authentication
-      history('/login');
+
+      if (authProvider) {
+        await authProvider;
+        // Redirect the user to the login page after successful authentication
+        history('/login');
+      }
     } catch (error) {
       // Handle any errors that occur during authentication
       console.error('Error during social media authentication:', error);
@@ -47,7 +51,7 @@ const Signup = () => {
 
   const handleSignup = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
+
     try {
       setIsLoading(true);
       const { username, email, pwd } = event.currentTarget.elements as typeof event.currentTarget.elements & {
@@ -55,14 +59,14 @@ const Signup = () => {
         email: { value: string };
         pwd: { value: string };
       };
-  
+
       const name = username.value;
       const userEmail = email.value;
-      const password = pwd.value;
-  
+      const userPassword = pwd.value;
+
       // Perform the sign-up using Firebase Authentication
-      await registerWithEmailAndPassword(name, userEmail, password);
-  
+      await registerWithEmailAndPassword(name, userEmail, userPassword);
+
       // Redirect the user to the login page after successful signup
       history('/login');
     } catch (error) {
@@ -79,13 +83,13 @@ const Signup = () => {
         <div className="signup-form">
           <h3>Create An Account</h3>
           <form onSubmit={handleSignup}>
-            <label htmlFor="name">Name</label><br />
-            <input type="text" id="username" name="username" value={username} onChange={event => setUsername(event.target.value)} /><br />
+            <label htmlFor="username">Name</label><br />
+            <input type="text" id="username" name="username" value={username} onChange={(event) => setUsername(event.target.value)} /><br />
             <label htmlFor="email">Email Address</label><br />
-            <input type="email" id="email" name="email" value={email} onChange={event => setEmail(event.target.value)} /><br />
-            <label htmlFor="pwd">Password:</label><br />
-            <input type="password" id="pwd" name="pwd" value={password} onChange={event => setPassword(event.target.value)} />
-            <button className="signup-btn">Create Account</button>
+            <input type="email" id="email" name="email" value={email} onChange={(event) => setEmail(event.target.value)} /><br />
+            <label htmlFor="password">Password:</label><br />
+            <input type="password" id="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+            <button className="signup-btn" type="submit">Create Account</button>
           </form>
           <p>OR</p>
           <SocialMediaAuth onSocialMediaAuth={handleSocialMediaAuth} />
