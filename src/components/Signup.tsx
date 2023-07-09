@@ -1,11 +1,13 @@
 import { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import SocialMediaAuth, { SocialMediaProvider } from './socialMediaAuth';
 import {
+  auth,
   signInWithGoogle,
   signInWithTwitter,
   signInWithFacebook,
   registerWithEmailAndPassword,
+  sendEmailVerification
 } from '../Firebase';
 
 const Signup = () => {
@@ -38,7 +40,7 @@ const Signup = () => {
       if (authProvider) {
         await authProvider;
         // Redirect the user to the login page after successful authentication
-        history('/login');
+        history('./Login');
       }
     } catch (error) {
       // Handle any errors that occur during authentication
@@ -63,12 +65,19 @@ const Signup = () => {
       const name = username.value;
       const userEmail = email.value;
       const userPassword = pwd.value;
+      
 
       // Perform the sign-up using Firebase Authentication
       await registerWithEmailAndPassword(name, userEmail, userPassword);
 
+       // Send email verification to the user
+      const user = auth.currentUser;
+      if (user) {
+        await sendEmailVerification(user);
+      }
+
       // Redirect the user to the login page after successful signup
-      history('/login');
+      history('./Login');
     } catch (error) {
       console.error('Error during signup:', error);
       setErrorMessage('An error occurred during sign-up. Please try again.');
@@ -93,7 +102,9 @@ const Signup = () => {
           </form>
           <p>OR</p>
           <SocialMediaAuth onSocialMediaAuth={handleSocialMediaAuth} />
-          <p>Already have an account? <a href="./Login">Login!</a></p>
+          <p>
+            Already have an account? <Link to="./Login">Login!</Link>
+          </p>
         </div>
       </section>
       <section className="backdrop">

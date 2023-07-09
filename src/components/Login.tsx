@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import 'firebase/auth';
 import { logInWithEmailAndPassword } from '../Firebase';
 
@@ -43,10 +43,10 @@ function Login() {
             <input type="email" id="email" name="email" /><br />
             <label htmlFor="pwd">Password:</label><br />
             <input type="password" id="pwd" name="pwd" />
-            <button className="login-btn">Login</button>
+            <button className="login-btn" type="submit">Login</button>
           </form>
           {errorMessage && <p>{errorMessage}</p>}
-          <p>Don't have an account? <a href="./Signup">Sign up!</a></p>
+          <p>Don't have an account? <Link to="./Signup">Sign up!</Link></p>
         </div>
       </section>
       <section className="backdrop">
