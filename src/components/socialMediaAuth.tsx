@@ -50,7 +50,7 @@ const SocialMediaAuth: React.FC<SocialMediaAuthProps> = ({ onSocialMediaAuth }) 
 
         {/* Twitter */}
         <button onClick={() => authenticateWithSocialMedia('twitter')}>
-          <img src="/path/to/twitter-icon.png" alt="Twitter" />
+          <img src="../images/twitter logo_icon2.png" alt="Twitter" />
         </button>
 
         {/* Facebook */}

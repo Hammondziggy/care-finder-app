@@ -5,10 +5,8 @@ import { logInWithEmailAndPassword } from '../Firebase';
 
 function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const history = useNavigate();
-
-  
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,8 +29,7 @@ function Login() {
       setIsLoading(false);
     }
   };
- 
-  
+
   return (
     <div className="login">
       <section className="login-ui">
@@ -43,10 +40,14 @@ function Login() {
             <input type="email" id="email" name="email" /><br />
             <label htmlFor="pwd">Password:</label><br />
             <input type="password" id="pwd" name="pwd" />
-            <button className="login-btn" type="submit">Login</button>
+            <button className="login-btn" type="submit" disabled={isLoading}>
+              {isLoading ? 'Loading...' : 'Login'}
+            </button>
           </form>
           {errorMessage && <p>{errorMessage}</p>}
-          <p>Don't have an account? <Link to="./Signup">Sign up!</Link></p>
+          <p>
+            Don't have an account? <Link to="./Signup">Sign up!</Link>
+          </p>
         </div>
       </section>
       <section className="backdrop">
@@ -58,6 +59,6 @@ function Login() {
       </section>
     </div>
   );
-};
+}
 
 export default Login;

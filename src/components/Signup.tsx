@@ -70,7 +70,7 @@ const Signup = () => {
       // Perform the sign-up using Firebase Authentication
       await registerWithEmailAndPassword(name, userEmail, userPassword);
 
-       // Send email verification to the user
+      // Send email verification to the user
       const user = auth.currentUser;
       if (user) {
         await sendEmailVerification(user);
@@ -98,8 +98,11 @@ const Signup = () => {
             <input type="email" id="email" name="email" value={email} onChange={(event) => setEmail(event.target.value)} /><br />
             <label htmlFor="password">Password:</label><br />
             <input type="password" id="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} />
-            <button className="signup-btn" type="submit">Create Account</button>
+            <button className="signup-btn" type="submit" disabled={isLoading}>
+              {isLoading ? 'Creating Account...' : 'Create Account'}
+            </button>
           </form>
+          {errorMessage && <p>{errorMessage}</p>}
           <p>OR</p>
           <SocialMediaAuth onSocialMediaAuth={handleSocialMediaAuth} />
           <p>
